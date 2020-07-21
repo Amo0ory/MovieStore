@@ -1,0 +1,29 @@
+﻿@model IEnumerable<MyBookStore.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h4>Movie List</h4>
+
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.ActionLink("New","Movie")'">New Movie</button>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Genre</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(movie.Name, "Edit", new { id = movie.Id })</td>
+                <td>@movie.Genre</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

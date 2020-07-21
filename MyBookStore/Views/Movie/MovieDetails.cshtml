@@ -1,0 +1,16 @@
+﻿@model MyBookStore.Models.Movie
+@{
+    ViewData["Title"] = "MovieDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Movie Details</h1>
+
+<h2>@Model.Name</h2>
+
+<ul>
+    <li>Genre: @Model.Genre</li>
+    <li>Release Date: @Model.ReleaseDate</li>
+    <li>Date Added: @Model.DateAdded</li>
+    <li>Number Available in Stock: @Model.NumberInStock</li>
+</ul>

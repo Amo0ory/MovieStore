@@ -1,0 +1,108 @@
+﻿@model IEnumerable<MyBookStore.Models.Customer>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.ActionLink("New","Customer")'">Add New Customer</button>
+
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+
+        <tr>
+            <th>Customer</th>
+            <th>Subscription Type</th>
+            <th>Delete</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var customers in Model)
+        {
+           
+            <tr>
+                <td>@Html.ActionLink(customers.Name, "Edit", new { id = customers.Id })</td>
+                <td>@customers.MembershipType.Name</td>
+                <td>
+                    <form asp-controller="Customer" asp-action="DeleteCustomer" method="post">
+                        @*    <a asp-controller="Customer" asp-action="Edit" asp-route="@customers.Id" class="btn btn-primary">Edit</a>*@
+                        <input type="hidden" name="id" value="@customers.Id" />
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+
+                    @* <button data-customer-id="@customers.Id" class="btn btn-link " onclick="location.href='@Url.ActionLink("Edit","Customer")'">Edit</button>*@
+                </td>
+
+
+
+            </tr>
+
+
+        }
+
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#customers').DataTable(
+            //{
+
+            //ajax: ({
+
+            //    data: "Name",
+            //    url: "/api/customers",
+            //    dataSrc: "",
+
+            //}),
+            //columns: [
+
+            //    {
+            //        data: "Name",
+            //        render: function (data, type, customer) {
+            //            return "<a href='/customer/edit/" + customer.Id + "'>" + customer.Name + "</a>";
+
+            //        }
+
+            //    },
+            //    {
+            //        data: "Name"
+            //    },
+            //    {
+            //        data: "id",
+            //        render: function (id) {
+            //            return "<button class= 'btn btn-link js-delete' data-cutsomer-id=" + data.id + "> Delete </button>";
+            //        }
+            //    }
+
+            //]
+
+
+            //}
+        );
+
+        $('#customers').on("click", ".js-delete", function () {
+
+            var button = $(this);
+            if (confirm("Are you sure you want to delte this customer")) {
+                $.ajax({
+                    type: "Post",
+                    url: "/api/customers/" + $(this).attr("data-customer-id"),
+                    //contentType:application/JSON,
+                    success: function () {
+                        console.log("Success!");
+                        button.parent("tr").remove();
+                    }
+                });
+            }
+
+        });
+    });
+
+
+</script>
